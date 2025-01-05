@@ -4,7 +4,7 @@ Minecraft: Bedrock Edition Simple Compiler
 > Supports Windows only
 # Usage
 > [!TIP]
-> Add Mcbesc to the PATH for ease of use
+> Add `Mcbesc` to the PATH for ease of use
 ```bash
 Mcbesc [project_file]
 ```
