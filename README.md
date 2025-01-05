@@ -2,25 +2,51 @@
 Minecraft: Bedrock Edition Simple Compiler
 > [!WARNING]
 > Supports Windows only
-
 # Usage
 > [!TIP]
-> Add Mcbess to the PATH for ease of use
+> Add Mcbesc to the PATH for ease of use
 ```bash
 Mcbesc [project_file]
 ```
-The standard path to the project is `.\mcbesc.json`
+The default path to project is `.\mcbesc.json`
 ## Project file
 ```json
 {
-    "Packs": [
-        "./Pack1",
-        "./Pack2"
+    "addons": [
+        {
+            "name": "main",
+            "packs": [
+                {
+                    "path": "./BP",
+                    "jsBuild": {
+                        "typescript": true,
+                        "yoptascript": false
+                    }
+                },
+                {
+                    "path": "./RP"
+                }
+            ]
+        },
+        {
+            "name": "patch",
+            "packs": [
+                {
+                    "path": "./BP_patch",
+                    "jsBuild": {
+                        "typescript": true,
+                        "yoptascript": true
+                    }
+                }
+            ]
+        }
     ],
-    "BuildDir": "./build",
-    "BuildName": "my_addon"
+    "outputDir": "./build"
 }
 ```
-- **Packs:** List of paths to packs
-- **BuildDir:** Path to output directory
-- **BuildName:** Name of compiled file (without `.mcaddon`)
+- **`addons`:** List of addons
+  - **`name`:** Name of compiled file (without `.mcaddon`)
+  - **`packs`:** List of packs in addon
+  - **`path`:** Path to pack directory
+  - **`jsBuild`:** Currently unused
+- **`outputDir`:** Path to output directory

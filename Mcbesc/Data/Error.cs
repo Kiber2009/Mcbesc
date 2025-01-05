@@ -1,6 +1,6 @@
 ﻿using Mcbesc.Utils;
 
-namespace Mcbesc
+namespace Mcbesc.Data
 {
     internal readonly struct Error
     {

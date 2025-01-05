@@ -6,10 +6,9 @@ namespace Mcbesc.Utils
     {
         internal static void WriteError(string text)
         {
-            ConsoleColor foreground = Console.ForegroundColor;
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine(text);
-            Console.ForegroundColor = foreground;
+            Console.ResetColor();
         }
     }
 }

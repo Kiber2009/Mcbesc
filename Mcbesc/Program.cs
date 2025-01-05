@@ -1,7 +1,5 @@
-﻿using Mcbesc.Utils;
-using Mcbesc.Utils.Extentions;
+﻿using Mcbesc.Data;
 using System.IO;
-using System.IO.Compression;
 using System.Text.Json;
 
 namespace Mcbesc
@@ -15,17 +13,21 @@ namespace Mcbesc
             string path = Path.GetFullPath(args.Length <= 0 ? DEFAULT_PATH : args[0]);
             if (!File.Exists(path))
             {
-                new Error($"Project file \"{path}\" is not exists").Write();
+                new Error(nameof(Program), $"Project file \"{path}\" is not exists").Write();
                 return;
             }
             ProjectFile projectFile;
             try
             {
-                projectFile = JsonSerializer.Deserialize<ProjectFile>(File.ReadAllText(path));
+                projectFile = JsonSerializer.Deserialize<ProjectFile>(File.ReadAllText(path),
+                    new JsonSerializerOptions
+                    {
+                        IncludeFields = true
+                    });
             }
             catch (JsonException)
             {
-                new Error($"Project file \"{path}\" has wrong JSON structure").Write();
+                new Error(nameof(Program), $"Project file \"{path}\" has wrong JSON structure").Write();
                 return;
             }
             Error[] errors = projectFile.Validate();
@@ -35,15 +37,9 @@ namespace Mcbesc
                 return;
             }
             projectFile.FullPath();
-            bool isAddon = projectFile.Packs.Length > 1;
-            if (Directory.Exists(projectFile.BuildDir)) Directory.Delete(projectFile.BuildDir, true);
-            Directory.CreateDirectory(projectFile.BuildDir);
-            string addonPath = Path.Combine(projectFile.BuildDir,
-                $"{projectFile.BuildName}.{(isAddon ? "mcaddon" : "mcpack")}");
-            if (isAddon) using (ZipArchive archive = ZipFile.Open(addonPath, ZipArchiveMode.Create))
-                    foreach (string pack in projectFile.Packs) archive.AddDirectory(pack, "");
-            else ZipFile.CreateFromDirectory(projectFile.Packs[0], addonPath);
-            return;
+            if (Directory.Exists(projectFile.outputDir)) Directory.Delete(projectFile.outputDir, true);
+            Directory.CreateDirectory(projectFile.outputDir);
+            foreach (Addon addon in projectFile.addons) addon.Build(projectFile.outputDir);
         }
     }
 }
