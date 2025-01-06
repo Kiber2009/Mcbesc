@@ -19,8 +19,7 @@ The default path to project is `.\mcbesc.json`
                 {
                     "path": "./BP",
                     "jsBuild": {
-                        "typescript": true,
-                        "yoptascript": false
+                        "typescript": true
                     }
                 },
                 {
@@ -34,8 +33,7 @@ The default path to project is `.\mcbesc.json`
                 {
                     "path": "./BP_patch",
                     "jsBuild": {
-                        "typescript": true,
-                        "yoptascript": true
+                        "typescript": true
                     }
                 }
             ]
