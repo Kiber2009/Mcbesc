@@ -4,9 +4,9 @@ Minecraft: Bedrock Edition Simple Compiler
 > Supports Windows only
 # Usage
 > [!TIP]
-> Add `Mcbesc` to the PATH for ease of use
+> Add Mcbesc to the PATH for ease of use
 ```bash
-Mcbesc [project_file]
+Mcbesc build [project_file]
 ```
 The default path to project is `.\mcbesc.json`
 ## Project file
@@ -43,7 +43,7 @@ The default path to project is `.\mcbesc.json`
 }
 ```
 - **`addons`:** List of addons
-  - **`name`:** Name of compiled file (without `.mcaddon`)
+  - **`name`:** Name of compiled file (without `.mcaddon` or `.mcpack`)
   - **`packs`:** List of packs in addon
   - **`path`:** Path to pack directory
   - **`jsBuild`:** Currently unused

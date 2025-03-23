@@ -1,9 +1,9 @@
 ﻿using System.IO;
 using System.IO.Compression;
 
-namespace Mcbesc.Utils.Extentions
+namespace Mcbesc.Utils.Extensions
 {
-    internal static class ZipArchiveExtentions
+    internal static class ZipArchiveExtensions
     {
         internal static void AddDirectory(this ZipArchive self, string directoryPath, string basePath)
         {

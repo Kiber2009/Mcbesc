@@ -1,45 +1,51 @@
-﻿using Mcbesc.Data;
-using System.IO;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Text.Json;
+using Mcbesc.Errors;
+using Mcbesc.Modules;
 
 namespace Mcbesc
 {
     internal static class Program
     {
-        private const string DEFAULT_PATH = @".\mcbesc.json";
+        internal static readonly JsonSerializerOptions jsonSerializerOptions = new JsonSerializerOptions
+        {
+            IncludeFields = true
+        };
+
+        private static readonly Dictionary<string, IModule> modules = new Dictionary<string, IModule>();
 
         private static void Main(string[] args)
         {
-            string path = Path.GetFullPath(args.Length <= 0 ? DEFAULT_PATH : args[0]);
-            if (!File.Exists(path))
-            {
-                new Error(nameof(Program), $"Project file \"{path}\" is not exists").Write();
-                return;
-            }
-            ProjectFile projectFile;
+            RegisterModules();
+
+            if (args.Length == 0) args = new[] { "help" };
+
+
             try
             {
-                projectFile = JsonSerializer.Deserialize<ProjectFile>(File.ReadAllText(path),
-                    new JsonSerializerOptions
-                    {
-                        IncludeFields = true
-                    });
+                modules[args[0].ToLower()].Execute(args.Skip(1).ToArray());
             }
-            catch (JsonException)
+            catch (KeyNotFoundException)
             {
-                new Error(nameof(Program), $"Project file \"{path}\" has wrong JSON structure").Write();
-                return;
+                new NotFoundError(nameof(Program), $"Module \"{args[0].ToLower()}\" not registered").Write();
             }
-            Error[] errors = projectFile.Validate();
-            if (errors.Length > 0)
-            {
-                foreach (Error error in projectFile.Validate()) error.Write();
-                return;
-            }
-            projectFile.FullPath();
-            if (Directory.Exists(projectFile.outputDir)) Directory.Delete(projectFile.outputDir, true);
-            Directory.CreateDirectory(projectFile.outputDir);
-            foreach (Addon addon in projectFile.addons) addon.Build(projectFile.outputDir);
+        }
+
+        private static void RegisterModules()
+        {
+            RegisterModule(new BuildModule());
+            RegisterModule(new HelpModule(modules));
+        }
+
+        private static void RegisterModule(string name, IModule module)
+        {
+            modules.Add(name, module);
+        }
+
+        private static void RegisterModule(INamedModule module)
+        {
+            RegisterModule(module.Name.ToLower(), module);
         }
     }
 }

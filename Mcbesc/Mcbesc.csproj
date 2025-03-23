@@ -63,15 +63,21 @@
   <ItemGroup>
     <Compile Include="Data\Addon.cs" />
     <Compile Include="Data\JsBuild.cs" />
-    <Compile Include="Data\Error.cs" />
     <Compile Include="Data\Pack.cs" />
+    <Compile Include="Errors\Error.cs" />
+    <Compile Include="Errors\NotFoundError.cs" />
+    <Compile Include="Modules\BuildModule.cs" />
+    <Compile Include="Modules\HelpModule.cs" />
+    <Compile Include="Modules\IModule.cs" />
+    <Compile Include="Modules\INamedModule.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Data\ProjectFile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utils\ConsoleUtils.cs" />
-    <Compile Include="Utils\Extentions\ArrayExtentions.cs" />
+    <Compile Include="Utils\Extensions\ArrayExtensions.cs" />
+    <Compile Include="Utils\Extensions\DictionaryExtensions.cs" />
     <Compile Include="Utils\PathUtils.cs" />
-    <Compile Include="Utils\Extentions\ZipArchiveExtentions.cs" />
+    <Compile Include="Utils\Extensions\ZipArchiveExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -88,6 +94,5 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
