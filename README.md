@@ -5,6 +5,7 @@ Minecraft: Bedrock Edition Simple Compiler
 # Usage
 > [!TIP]
 > Add Mcbesc to the PATH for ease of use
+
 ```bash
 Mcbesc build [project_file]
 ```
